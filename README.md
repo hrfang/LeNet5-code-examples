@@ -89,7 +89,8 @@ optional arguments:
                         the directory to host the trained models
 ```
 
-<h4>Remarks:</h4>
+### Remarks:
+
 - The code `train.py` utilizes `torchvision.datasets.mnist` which can
   can process datasets `MNIST`, `FashionMNIST`, `KMNST`, and `QMNIST`
   in a unified manner.
@@ -161,7 +162,8 @@ optional arguments:
                         the file name of trained model for inference
 ```
 
-<h4>Remarks:</h4>
+### Remarks:
+
 - The code `predict.py` also utilizes `torchvision.datasets.mnist` to
   process the data, and the related comments for `train.py` also apply here,
   except for:
