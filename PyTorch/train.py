@@ -35,7 +35,7 @@ def get_args(argv=None, verbose=False):
 
     # optimizer and related hyperparameters
     parser.add_argument("--optimizer", default="SGD",
-                        help="optimizer for training; options are SGD, RMSprop, Adam, and AdamW, where SGD and RMSprop takes the momentum option")
+                        help="optimizer for training; options are SGD, RMSprop, Adam, and AdamW, where SGD and RMSprop take the momentum option")
     parser.add_argument("--momentum", type=float, default=0.9,
                         help="this argument is effective only for SGD and RMSprop; 0 means no momentum; recommended 0.9")
     parser.add_argument("--weight_decay", type=float, default=5e-4,

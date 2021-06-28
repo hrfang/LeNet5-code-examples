@@ -1,9 +1,9 @@
 # A PyTorch Implementation of LeNet-5
 
 This repo contains a PyTorch implementation of LeNet-5 [(LeCun et al., 1998)][lenet5_paper], with
-minor modifications from the original paper, as well as extensions for the convenience of experiments.
+minor modifications from the original paper, as well as flexible settings for the convenience of experiments.
 
-![LeNet-5 network architecture](images/lenet5.png)
+![LeNet-5 network architecture](images/lenet5.png "Image source: [LeCun et al. (1998)][lenet5_paper]")
 
 
 ## Results
@@ -69,7 +69,7 @@ optional arguments:
                         fc2); 0 means no dropout
   --optimizer OPTIMIZER
                         optimizer for training; options are SGD, RMSprop,
-                        Adam, and AdamW, where SGD and RMSprop takes the
+                        Adam, and AdamW, where SGD and RMSprop take the
                         momentum option
   --momentum MOMENTUM   this argument is effective only for SGD and RMSprop; 0
                         means no momentum; recommended 0.9
@@ -110,7 +110,7 @@ optional arguments:
 - The activation functions in the intermediate layers can be specified by `--activation`.
   - By default, `--activation=SELU', whose [self-normalizing][selu_paper] properties
     magically improve the performance of standard feed-forward neural networks
-    (all fully-connected layers), and may have some value for convolutional
+    (all fully-connected layers), and would have value for convolutional
     neural networks for image classification.
   - The options of the activation include various rectified activations `ReLU`, `LeakyReLU`, `PReLU`, and `RReLU`.
     See the [empirical evaluation][xrelu_paper] along with a short
@@ -175,7 +175,7 @@ optional arguments:
   - It may be convenient to follow the `data_root` used for training, so
     that the data won't be downloaded again.
   - By default, `--data_root=../data` as that in `train.py`.
-- The trainded model for inference is specified by `--trained_model`.
+- The trained model for inference is specified by `--trained_model`.
   - For example, `--trained_model=./mnist_model/MNIST_epoch43_acc0.9913.pkl`.
   - The following trained models have been provided under `./trained_models/`:
     - `MNIST_epoch43_acc0.9913.pkl`
@@ -244,3 +244,5 @@ International Conference for Learning Representation, 2015.
 I. Loshchilov and F. Hutter,
 "Decoupled Weight Decay Regularization,"
 International Conference for Learning Representation, 2019.
+
+[adamw_paper]: https://arxiv.org/pdf/1711.05101.pdf
