@@ -4,6 +4,7 @@ This repo contains a PyTorch implementation of LeNet-5 [(LeCun et al., 1998)][le
 minor modifications from the original paper, as well as flexible settings for the convenience of experiments.
 
 ![LeNet-5 network architecture](images/lenet5.png)
+
 Image source: [LeCun et al. (1998)][lenet5_paper]
 
 
