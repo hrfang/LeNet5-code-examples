@@ -42,7 +42,7 @@ The code has been tested in the following environment:
 
 It should also work with some other package versions.
 The code (`*.py`) is hosted in the subdirectory `PyTorch`, where you can try
-it after cloning this repo.
+running the code after cloning this repo.
 
 
 ## Training
@@ -114,6 +114,9 @@ optional arguments:
   - The options of the activation include various rectified activations `ReLU`, `LeakyReLU`, `PReLU`, and `RReLU`.
     See the [empirical evaluation][xrelu_paper] along with a short
     description of these activations.
+  - Since `PyTorch 1.9`, `--activation=Mish` is also supported.
+    The activation [`Mish`][mish_paper] is self-regularized and its
+    practical value has been verified in e.g. object detection.
 - [Dropout][dropout_paper] can be optionally applied to the two fully connected layers before the last one.
   - The dropout rate can be specified by `--dropout`.
   - By default, `--dropout=0`, which means not to apply dropout.
@@ -218,28 +221,35 @@ arXiv preprint arXiv:1505.00853, 2015.
 
 [xrelu_paper]: https://arxiv.org/pdf/1505.00853.pdf
 
-[[4](https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf)]
+[[4](https://www.bmvc2020-conference.com/assets/papers/0928.pdf)]
+D. Misra,
+"Mish: A Self Regularized Non-Monotonic Activation Function,"
+British Machine Vision Conference, 2020.
+
+[mish_paper]: https://www.bmvc2020-conference.com/assets/papers/0928.pdf
+
+[[5](https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf)]
 N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever, and R. Salakhutdinov,
 "Dropout: A Simple Way to Prevent Neural Networks from Overfitting,"
 Journal of Machine Learning Research, 15(56):1929-1958, 2014.
 
 [dropout_paper]: https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf
 
-[[5](https://www.cs.toronto.edu/~hinton/coursera/lecture6/lec6.pdf)]
+[[6](https://www.cs.toronto.edu/~hinton/coursera/lecture6/lec6.pdf)]
 T. Tieleman and G. Hinton,
 "Lecture 6e - RMSProp,"
 COURSERA: Neural Networks for Machine Learning, 2012.
 
 [rmsprop_ref]: https://www.cs.toronto.edu/~hinton/coursera/lecture6/lec6.pdf
 
-[[6](https://arxiv.org/pdf/1412.6980.pdf)]
+[[7](https://arxiv.org/pdf/1412.6980.pdf)]
 D. P. Kingma and J. Ba,
 "Adam: A Method for Stochastic Optimization,"
 International Conference for Learning Representation, 2015.
 
 [adam_paper]: https://arxiv.org/pdf/1412.6980.pdf
 
-[[7](https://arxiv.org/pdf/1711.05101.pdf)]
+[[8](https://arxiv.org/pdf/1711.05101.pdf)]
 I. Loshchilov and F. Hutter,
 "Decoupled Weight Decay Regularization,"
 International Conference for Learning Representation, 2019.
