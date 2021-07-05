@@ -50,31 +50,29 @@ it after cloning this repo.
 For a list of training arguments, try `python3 train.py -h`
 ```
 $ python3 train.py -h
-usage: train.py [-h] [--dataset DATASET] [--activation ACTIVATION]
-                [--dropout_rate DROPOUT_RATE] [--optimizer OPTIMIZER]
-                [--momentum MOMENTUM] [--weight_decay WEIGHT_DECAY]
-                [--num_epoch NUM_EPOCH] [--batch_size BATCH_SIZE] [--lr LR]
-                [--num_iter_echo NUM_ITER_ECHO] [--data_root DATA_ROOT]
+usage: train.py [-h] [--device DEVICE] [--dataset DATASET] [--activation ACTIVATION]
+                [--dropout_rate DROPOUT_RATE] [--optimizer OPTIMIZER] [--momentum MOMENTUM]
+                [--weight_decay WEIGHT_DECAY] [--num_epoch NUM_EPOCH] [--batch_size BATCH_SIZE]
+                [--lr LR] [--num_iter_echo NUM_ITER_ECHO] [--data_root DATA_ROOT]
                 [--model_path MODEL_PATH]
 
 LeNet-5 training
 
 optional arguments:
   -h, --help            show this help message and exit
-  --dataset DATASET     dataset to be used; options are MNIST, FashionMNIST,
-                        KMNIST, QMNIST
+  --device DEVICE       options are cpu, gpu, auto, where auto will use GPU if it is available, and
+                        otherwise CPU
+  --dataset DATASET     dataset to be used; options are MNIST, FashionMNIST, KMNIST, QMNIST
   --activation ACTIVATION
-                        activation function; options include ReLU, LeakyReLU,
-                        PReLU, RReLU, ELU, SELU
+                        activation function; options include Tanh, ReLU, LeakyReLU, PReLU, RReLU, ELU,
+                        SELU
   --dropout_rate DROPOUT_RATE
-                        dropout rate in the 2 fully-connected layers (fc1 and
-                        fc2); 0 means no dropout
+                        dropout rate in the 2 fully-connected layers (fc1 and fc2); 0 means no dropout
   --optimizer OPTIMIZER
-                        optimizer for training; options are SGD, RMSprop,
-                        Adam, and AdamW, where SGD and RMSprop take the
-                        momentum option
-  --momentum MOMENTUM   this argument is effective only for SGD and RMSprop; 0
-                        means no momentum; recommended 0.9
+                        optimizer for training; options are SGD, RMSprop, Adam, and AdamW, where SGD
+                        and RMSprop take the momentum option
+  --momentum MOMENTUM   this argument is effective only for SGD and RMSprop; 0 means no momentum;
+                        recommended 0.9
   --weight_decay WEIGHT_DECAY
                         weight decay rate or L2 regularization coefficient
   --num_epoch NUM_EPOCH
@@ -83,8 +81,7 @@ optional arguments:
                         mini-batch size
   --lr LR               learning rate (fixed)
   --num_iter_echo NUM_ITER_ECHO
-                        training loss is printed for every num_iter_echo mini-
-                        batch iterations
+                        training loss is printed for every num_iter_echo mini-batch iterations
   --data_root DATA_ROOT
                         the root directory containing the data
   --model_path MODEL_PATH
@@ -112,7 +109,7 @@ optional arguments:
 - The activation functions in the intermediate layers can be specified by `--activation`.
   - By default, `--activation=SELU', whose [self-normalizing][selu_paper] properties
     magically improve the performance of standard feed-forward neural networks
-    (all fully-connected layers), and would have value for convolutional
+    (all fully-connected layers), and would potentially have value for convolutional
     neural networks for image classification.
   - The options of the activation include various rectified activations `ReLU`, `LeakyReLU`, `PReLU`, and `RReLU`.
     See the [empirical evaluation][xrelu_paper] along with a short
@@ -147,15 +144,15 @@ python3 train.py --dataset=FashionMNIST --optimizer=SGD --momentum=0 --lr=0.1
 For a list of prediction arguments, try `python3 predict.py -h`
 ```
 $ python3 predict.py -h
-usage: predict.py [-h] [--dataset DATASET] [--batch_size BATCH_SIZE]
-                  [--data_root DATA_ROOT] [--trained_model TRAINED_MODEL]
+usage: predict.py [-h] [--dataset DATASET] [--batch_size BATCH_SIZE] [--data_root DATA_ROOT]
+                  [--trained_model TRAINED_MODEL]
 
 LeNet-5 inference
 
 optional arguments:
   -h, --help            show this help message and exit
-  --dataset DATASET     dataset to be used; options are MNIST, FashionMNIST,
-                        KMNIST, QMNIST
+  --dataset DATASET     dataset to be used; options are MNIST, FashionMNIST, KMNIST, QMNIST
+                       
   --batch_size BATCH_SIZE
                         mini-batch size
   --data_root DATA_ROOT

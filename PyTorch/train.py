@@ -23,13 +23,17 @@ def get_args(argv=None, verbose=False):
     # a parser to get arguments
     parser = argparse.ArgumentParser(description="LeNet-5 training")
 
+    # device
+    parser.add_argument("--device", default="cpu",
+                        help="options are cpu, gpu, auto, where auto will use GPU if it is available, and otherwise CPU")
+
     # dataset
     parser.add_argument("--dataset", default="MNIST",
                         help="dataset to be used; options are MNIST, FashionMNIST, KMNIST, QMNIST")
 
     # activation and dropout
     parser.add_argument("--activation", default='SELU',
-                        help="activation function; options include ReLU, LeakyReLU, PReLU, RReLU, ELU, SELU")
+                        help="activation function; options include Tanh, ReLU, LeakyReLU, PReLU, RReLU, ELU, SELU")
     parser.add_argument("--dropout_rate", type=float, default=0.,
                         help="dropout rate in the 2 fully-connected layers (fc1 and fc2); 0 means no dropout")
 
@@ -61,6 +65,7 @@ def get_args(argv=None, verbose=False):
     # print arguments if verbose is True
     if verbose:
         print('Arguments:')
+        print('    device:', args.device)
         print('    dataset:', args.dataset)
 
         print('    activation:', args.activation)
@@ -85,9 +90,24 @@ if __name__ == '__main__':
     # parse the command line to get the arguments
     args = get_args(verbose=True)
 
+    if args.device == 'gpu':
+        if torch.cuda.is_available():
+            use_gpu = True
+        else:
+            sys.exit('Asked device gpu, which is however not available!')
+    elif args.device == 'auto' and torch.cuda.is_available():
+        use_gpu = True
+    else:
+        use_gpu = False
+
+    if use_gpu:
+        device = torch.device('cuda:0')
+
     # the LeNet-5 network
     activation = getattr(torch.nn.modules.activation, args.activation)  # by default, args.dataset is 'SELU' => activation will be orch.nn.modules.activation.SELU
     lenet5 = LeNet5(activation=activation, dropout_rate=args.dropout_rate)
+    if use_gpu:
+        lenet5.to(device)
 
     # load dataset
     transform = transforms.Compose([transforms.ToTensor(),
@@ -137,8 +157,8 @@ if __name__ == '__main__':
             optimizer.zero_grad()
 
             # prediction and loss
-            predict_y = lenet5(train_x.float())
-            loss = loss_func(predict_y, train_label.long())
+            predict_y = lenet5(train_x.to(device) if use_gpu else train_x)
+            loss = loss_func(predict_y, train_label.to(device) if use_gpu else train_label)
             if idx % args.num_iter_echo == 0:
                 print('mini-batch #{}:, training cross-entropy loss = {:.6g}'.format(idx, loss.item()))
 
@@ -158,18 +178,19 @@ if __name__ == '__main__':
             num_sample += sample_count
 
             # prediction
-            predict_y = lenet5(val_x.float()).detach()  # no need of back-propagation here, so "detach"
+            predict_y = lenet5(val_x.to(device) if use_gpu else val_x).detach()
+                # no need of back-propagation here, so "detach"
 
             # validation loss
-            loss = loss_func(predict_y, val_label.long())
-            sum_loss += loss.numpy()*sample_count
+            loss = loss_func(predict_y, val_label.to(device) if use_gpu else val_label)
+            sum_loss += (loss.cpu() if use_gpu else loss).item()*sample_count
                 # the routine CrossEntropyLoss has default argument reduction='mean'
                 # so we multiply it by sample_count for the "sum"
 
             # validation accuracy
-            predict_ys = np.argmax(predict_y, axis=-1)
-            _ = predict_ys == val_label
-            num_correct += np.sum(_.numpy(), axis=-1)
+            _, predict_ys = torch.max(predict_y, axis=-1)
+            is_correct = val_label == (predict_ys.cpu() if use_gpu else predict_ys)
+            num_correct += is_correct.sum().item()
 
         print('Epoch #{}: validation cross-entropy loss = {:.6g}, accuracy: {:.4f} ({}/{})'.format(epoch, sum_loss/num_sample, num_correct/num_sample, num_correct, num_sample))
 
