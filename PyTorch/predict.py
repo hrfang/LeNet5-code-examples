@@ -28,7 +28,7 @@ def get_args(argv=None, verbose=False):
     # data location (to read) and model location (to save)
     parser.add_argument("--data_root", default="../data",
                         help="the root directory containing the data")
-    parser.add_argument("--trained_model", default="trained_models/MNIST_epoch40_acc0.9900.pkl",
+    parser.add_argument("--trained_model", default="trained_models/MNIST_epoch43_acc0.9913.pkl",
                         help="the file name of trained model for inference")
 
     args = parser.parse_args(argv)
@@ -69,17 +69,39 @@ if __name__ == '__main__':
     lenet5.eval()  # ensure the evaluation mode (deactivate dropout or batch normalization, in case of any)
     num_correct = 0
     num_sample = 0
-    for idx, (test_x, test_label) in enumerate(test_loader):
-        # udpate num_sample
-        sample_count = test_label.shape[0]
-        num_sample += sample_count
+    
+    with torch.no_grad():
+        # we are not training, and hence do not need gradients here
+        for idx, (test_x, test_label) in enumerate(test_loader):
+            # udpate num_sample
+            sample_count = test_label.shape[0]
+            num_sample += sample_count
 
-        # prediction
-        predict_y = lenet5(test_x.float()).detach()  # no need of back-propagation here, so "detach"
+            # prediction
+            predict_y = lenet5(test_x.float())
+            # predict_y[i,j] is the predicted probability of sample i being of class j
+            # predict_y is of shape (sample_count, num_class), where
+            # num_class is 10 (10 classes) for MNIST etc., and
+            # sample_count is batch_size (by default 500), except for the last iteration,
+            # which may have sample_count less than batch_size
 
-        # test accuracy
-        predict_ys = np.argmax(predict_y, axis=-1)
-        _ = predict_ys == test_label
-        num_correct += np.sum(_.numpy(), axis=-1)
+            if idx == 0:
+                # first time here, malloc confusion matrix
+                num_class = predict_y.shape[1]
+                confusion_matrix = np.zeros((num_class, num_class), dtype=np.int32)
 
-    print('Test accuracy: {:.4f} ({}/{})'.format(num_correct/num_sample, num_correct, num_sample))
+            # update test accuracy
+            _, predict_ys = torch.max(predict_y, axis=-1)
+            # the above line gives the same result as: predict_ys = np.argmax(predict_y, axis=-1)
+            num_correct += (predict_ys == test_label).sum().item()
+            # the above line gives the same result as num_correct += np.sum((predict_ys == test_label).numpy())
+
+            # update confusion matrix
+            for label, prediction in zip(test_label, predict_ys):
+                confusion_matrix[label, prediction] += 1
+
+        print('Test accuracy: {:.4f} ({}/{})'.format(num_correct/num_sample, num_correct, num_sample))
+        print('Confusion matrix:')
+        print(confusion_matrix)
+        print('Entry (i,j) is the number of cases that class i is predicted as class j.')
+

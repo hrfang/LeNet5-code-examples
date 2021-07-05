@@ -1,3 +1,4 @@
+import torch
 from torch import nn
 
 
@@ -39,7 +40,7 @@ class LeNet5(nn.Module):
         y = self.conv2(y)
         y = self.activation2(y)
         y = self.pool2(y)
-        y = y.view(y.shape[0], -1)  # flatten
+        y = torch.flatten(y, 1)  # flatten all dimensions except for the very first (batch dimension)
         y = self.fc1(y)
         y = self.activation3(y)
         if self.dropout1 is not None:
