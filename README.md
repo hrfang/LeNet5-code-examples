@@ -15,9 +15,9 @@ this implementation achieved the validation and test accuracy
 of `MNIST`, `FashionMNIST`, `KMNST`, `QMNIST`
 listed in the following table.
 
-| Syntax      | Validation accuracy | Test accuracy |
+| Dataset     | Validation accuracy | Test accuracy |
 | ----------- | ----------- | ----------- |
-| [MNIST][mnist_dataset]      | 99.13% | 98.94%      |
+| [MNIST][mnist_dataset]     | 99.13% | 98.94%      |
 | [Fashion MNIST][fashion_mnist_dataset]   | 90.94% |  90.36%      |
 | [KMNIST][kmnist_dataset]   | 97.98% |  94.16%      |
 | [QMNIST][qmnist_dataset]   | 99.07% |  98.88%      |
@@ -155,7 +155,7 @@ LeNet-5 inference
 optional arguments:
   -h, --help            show this help message and exit
   --dataset DATASET     dataset to be used; options are MNIST, FashionMNIST, KMNIST, QMNIST
-                       
+
   --batch_size BATCH_SIZE
                         mini-batch size
   --data_root DATA_ROOT
@@ -185,9 +185,9 @@ optional arguments:
     - `KMNIST_epoch43_acc0.9798.pkl`
     - `QMNIST_epoch46_acc0.9907.pkl`
 - The prediction is performed in mini-batches, whose size is specified by `--batch_size`.
-    - Note that the number of samples in the test set (10,000) should be divisible by `batch_size`.
     - By default, `--batch_size=500`.
-    - The classification accuracy of the whole test set will be summarized.
+    - The classification accuracy of the whole test set will be summarized,
+      along with a confusion matrix printed.
 
 As an example, the following command will calculate and report
 the test accuracy of `MNIST` image classification
@@ -200,58 +200,50 @@ python3 predict.py --dataset=MNIST --trained_model=trained_models/MNIST_epoch43_
 
 ## References
 
-[[1](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf)]
-Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner,
-"Gradient-based learning applied to document recognition,"
+[1] Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner,
+["Gradient-based learning applied to document recognition,"][lenet5_paper]
 Proceedings of the IEEE, 86(11):2278-2324, Nov. 1998.
 
 [lenet5_paper]: http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf
 
-[[2](https://papers.nips.cc/paper/2017/file/5d44ee6f2c3f71b73125876103c8f6c4-Paper.pdf)]
-G. Klambauer, T. Unterthiner, A. Mayr, and S. Hochreiter
-"Self-Normalizing Neural Networks,"
+[2] G. Klambauer, T. Unterthiner, A. Mayr, and S. Hochreiter
+["Self-Normalizing Neural Networks,"][selu_paper]
 Advances in Neural Information Processing Systems, Vol. 30, 2017.
 
 [selu_paper]: https://papers.nips.cc/paper/2017/file/5d44ee6f2c3f71b73125876103c8f6c4-Paper.pdf
 
-[[3](https://arxiv.org/pdf/1505.00853.pdf)]
-B. Xu, N. Wang, T. Chen, and M. Li,
-Empirical Evaluation of Rectified Activations in Convolutional Network,"
+[3] B. Xu, N. Wang, T. Chen, and M. Li,
+["Empirical Evaluation of Rectified Activations in Convolutional Network,"][xrelu_paper]
 arXiv preprint arXiv:1505.00853, 2015.
 
 [xrelu_paper]: https://arxiv.org/pdf/1505.00853.pdf
 
-[[4](https://www.bmvc2020-conference.com/assets/papers/0928.pdf)]
-D. Misra,
-"Mish: A Self Regularized Non-Monotonic Activation Function,"
+[4] D. Misra,
+["Mish: A Self Regularized Non-Monotonic Activation Function,"][mish_paper]
 British Machine Vision Conference, 2020.
 
 [mish_paper]: https://www.bmvc2020-conference.com/assets/papers/0928.pdf
 
-[[5](https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf)]
-N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever, and R. Salakhutdinov,
-"Dropout: A Simple Way to Prevent Neural Networks from Overfitting,"
+[5] N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever, and R. Salakhutdinov,
+["Dropout: A Simple Way to Prevent Neural Networks from Overfitting,"][dropout_paper]
 Journal of Machine Learning Research, 15(56):1929-1958, 2014.
 
 [dropout_paper]: https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf
 
-[[6](https://www.cs.toronto.edu/~hinton/coursera/lecture6/lec6.pdf)]
-T. Tieleman and G. Hinton,
-"Lecture 6e - RMSProp,"
+[6] T. Tieleman and G. Hinton,
+["Lecture 6e - RMSProp,"][rmsprop_ref]
 COURSERA: Neural Networks for Machine Learning, 2012.
 
 [rmsprop_ref]: https://www.cs.toronto.edu/~hinton/coursera/lecture6/lec6.pdf
 
-[[7](https://arxiv.org/pdf/1412.6980.pdf)]
-D. P. Kingma and J. Ba,
-"Adam: A Method for Stochastic Optimization,"
+[7] D. P. Kingma and J. Ba,
+["Adam: A Method for Stochastic Optimization,"][adam_paper]
 International Conference for Learning Representation, 2015.
 
 [adam_paper]: https://arxiv.org/pdf/1412.6980.pdf
 
-[[8](https://arxiv.org/pdf/1711.05101.pdf)]
-I. Loshchilov and F. Hutter,
-"Decoupled Weight Decay Regularization,"
+[8] I. Loshchilov and F. Hutter,
+["Decoupled Weight Decay Regularization,"][adamw_paper]
 International Conference for Learning Representation, 2019.
 
 [adamw_paper]: https://arxiv.org/pdf/1711.05101.pdf

@@ -3,7 +3,7 @@ from torch import nn
 
 
 class LeNet5(nn.Module):
-    def __init__(self, num_input_channel=1, activation=nn.modules.activation.LeakyReLU, dropout_rate=0):
+    def __init__(self, num_input_channel=1, activation=nn.modules.activation.ReLU, dropout_rate=0):
         super(LeNet5, self).__init__()
         # assume the input tensor of shape (None,num_input_channel,32,32); None means we don't know mini-batch size yet, 1 is for one channel (grayscale)
         # num_input_channel is the number of input channels; 1 for grayscale images, and 3 for RBG color images
